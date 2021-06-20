@@ -6,8 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,18 +24,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.luv2code.springboot.crm.CrmUser.CrmUser;
-import com.luv2code.springboot.crm.entity.Customer;
+import com.luv2code.springboot.crm.CrmUser.LoginServicer;
+import com.luv2code.springboot.crm.carservicer.entity.CarServicer;
 import com.luv2code.springboot.crm.service.CustomerServicerDaoImpl;
 
 @Controller
-@RequestMapping("/register")
-public class RegistrationController {
-
+@RequestMapping("/serviceregister")
+public class ServicerRegController {
+	
 	@Autowired
 	private UserDetailsManager userDetailsManager;
 	
-	private Customer customer;
+	private CarServicer carservicer;
 	
 	@Autowired
 	private CustomerServicerDaoImpl customerServiceImpl;
@@ -48,35 +50,36 @@ public class RegistrationController {
 	
 	@GetMapping("/showRegistrationForms")
 	public String registerForm(Model model) {
-		
-		CrmUser crmUser = new CrmUser();
-		model.addAttribute("crmUser", crmUser);
-		return "registration-form";
+		LoginServicer loginServicer = new LoginServicer();
+		model.addAttribute("loginServicer", loginServicer);
+		return "service-registration-form";
 	}
 	
 	@PostMapping("/processRegistrationForm")
-	public String processRegistration(@Valid @ModelAttribute("crmUser")CrmUser crmUser, 
+	public String processRegistration(@Valid @ModelAttribute("loginServicer")LoginServicer loginServicer, 
 								BindingResult bindingResult,
 								Model model) {
 		
-		String userName = crmUser.getUserName();
+		String userName = loginServicer.getUsername();
 		if(bindingResult.hasErrors()) {
-			model.addAttribute("crmUser", crmUser);
+			model.addAttribute("loginServicer", loginServicer);
 			model.addAttribute("registrationError", "username or passoword cannot be empty");
-			return "registration-form";
+			return "service-registration-form";
 		}
 		if(doesUserExist(userName)) {
-			model.addAttribute("crmUser", crmUser);
+			model.addAttribute("loginServicer", loginServicer);
 			model.addAttribute("registrationError", "username Exists");
-			return "registration-form";
+			return "service-registration-form";
 		}
-		String firstName = crmUser.getFirstName();
-		String lastName = crmUser.getLastName();
-		customer = new Customer(firstName,lastName, userName);
-		customerServiceImpl.saveCustomer(customer);
-		String password = "{bcrypt}"+passwordEncoder.encode(crmUser.getPassword());
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_EMPLOYEE");
-		User user = new User(userName, password, grantedAuthorities);
+		String emailId = loginServicer.getUsername();
+		String carServicerName= loginServicer.getCarServicerName();
+		String address = loginServicer.getAddress();
+		int pincode = loginServicer.getPincode();
+		carservicer = new CarServicer(carServicerName,address, pincode, emailId);
+		customerServiceImpl.saveCarServicer(carservicer);
+		String password = "{bcrypt}"+passwordEncoder.encode(loginServicer.getPassword());
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.createAuthorityList("ROLE_SERVICER");
+		User user = new User(emailId, password, grantedAuthorities);
 		userDetailsManager.createUser(user);
 		return "registration-confirmation";
 	}
@@ -84,6 +87,5 @@ public class RegistrationController {
 	public boolean doesUserExist(String username) {
 		return userDetailsManager.userExists(username);
 	}
-
 
 }

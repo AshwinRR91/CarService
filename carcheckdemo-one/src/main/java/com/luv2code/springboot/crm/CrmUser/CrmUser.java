@@ -11,14 +11,14 @@ public class CrmUser {
 	@NotNull
 	@Size(min= 1 ,message = "is Required")
 	private String password;
-	/*
+	
 	@NotNull
 	@Size(min= 1 ,message = "is Required")
 	String firstName;
 	
 	@NotNull
 	@Size(min= 1 ,message = "is Required")
-	String last_Name;
+	String lastName;
 
 	public String getFirstName() {
 		return firstName;
@@ -28,14 +28,14 @@ public class CrmUser {
 		this.firstName = firstName;
 	}
 
-	public String getLast_Name() {
-		return last_Name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast_Name(String last_Name) {
-		this.last_Name = last_Name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-*/
+
 	public CrmUser() {
 	}
 

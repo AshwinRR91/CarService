@@ -15,16 +15,16 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 
 @Configuration
-@Order(1)
+@Order(2)
 @EnableWebSecurity
-public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
+public class CarDemoSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// add a reference to our security data source
 	
 	private DataSource securityDataSource;
 	
 	@Autowired
-	public DemoSecurityConfig(@Qualifier("securityDataSource") DataSource securityDataSource) {
+	public CarDemoSecurityConfig(@Qualifier("securityDataSource") DataSource securityDataSource) {
 		this.securityDataSource = securityDataSource;
 	}
 	
@@ -38,11 +38,11 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-			.antMatchers("/customer/**").hasRole("EMPLOYEE")
+			.antMatchers("/carservicer/**").hasRole("SERVICER")
 			.antMatchers("/resources/**").permitAll()
 			.and()
 			.formLogin()
-				.loginPage("/showMyLoginPage")
+				.loginPage("/showMyLoginPageForServicer")
 				.loginProcessingUrl("/authenticateTheUser")
 				.permitAll()
 			.and()
@@ -52,7 +52,7 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public UserDetailsManager userDetailsManager() {
+	public UserDetailsManager userDetailsManager1() {
 		
 		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
 		

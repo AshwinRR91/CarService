@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-awesome
+
+<a href="/customerLogin">Login/Register as a Customer</a>
+
+<a href="/showMyLoginPageForServicer">Login/Register as a Servicer</a>
+
 </body>
 </html>

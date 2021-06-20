@@ -11,20 +11,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.luv2code.springboot.crm.entity.Customer;
 import com.luv2code.springboot.crm.entity.CustomerRequest;
-import com.luv2code.springboot.crm.service.CustomerServiceImpl;
+import com.luv2code.springboot.crm.service.CustomerServicerDaoImpl;
 
 
 @Controller
 public class CustomerController {
 	
 	@Autowired
-	private CustomerServiceImpl customerServiceImpl;
+	private CustomerServicerDaoImpl customerServiceImpl;
 	
 	@GetMapping("/showMyLoginPage")
-	public String getString() {
+	public String getString(Model model) {
 		//Customer customer = customerServiceImpl.getCustomer(1);
-		//return customer;
+		//return customer
+		return "check-login";
+	}
+	
+	@GetMapping("/customerLogin")
+	public String getCustomerLogin() {
+		//Customer customer = customerServiceImpl.getCustomer(1);
+		//return customer
 		return "fancy-login";
+	}
+	
+	@GetMapping("/showMyLoginPageForServicer")
+	public String getServicerLogin() {
+		//Customer customer = customerServiceImpl.getCustomer(1);
+		//return customer
+		return "servicer-login";
 	}
 	
 	@GetMapping("/error")

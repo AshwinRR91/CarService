@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luv2code.springboot.crm.entity.Customer;
-import com.luv2code.springboot.crm.service.CustomerServiceImpl;
+import com.luv2code.springboot.crm.service.CustomerServicerDaoImpl;
 
 @RestController
 @RequestMapping("/new")
 public class RequestController {
 	
 	@Autowired
-	private CustomerServiceImpl customerServiceImpl;
+	private CustomerServicerDaoImpl customerServiceImpl;
 	
 	@GetMapping("/awesome")
 	public Customer returnCust(Principal principal) {

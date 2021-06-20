@@ -65,6 +65,18 @@
 							
 							<form:input path="userName" placeholder="username" class="form-control" />
 						</div>
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
+							
+							<form:input path="firstName" placeholder="firstname" class="form-control" />
+						</div>
+						
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
+							
+							<form:input path="lastName" placeholder="lastname" class="form-control" />
+						</div>
+						
 
 						<!-- Password -->
 						<div style="margin-bottom: 25px" class="input-group">

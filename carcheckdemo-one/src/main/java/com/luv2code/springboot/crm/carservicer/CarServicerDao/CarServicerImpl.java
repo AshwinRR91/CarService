@@ -1,6 +1,8 @@
 package com.luv2code.springboot.crm.carservicer.CarServicerDao;
 
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 
@@ -45,5 +47,14 @@ public class CarServicerImpl implements CarServicerDao {
 		query.setParameter("emailId", emailId);
 		CarServicer carServicer = query.getSingleResult();
 		return carServicer;
+	}
+
+	@Override
+	public List<CarServicer> getCarServicers(int pincode) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query<CarServicer> query =  currentSession.createQuery("from CarServicer s where s.pincode=:pincode");
+		query.setParameter("pincode", pincode);
+		List<CarServicer> carservicers = query.getResultList();
+		return carservicers;
 	}
 }

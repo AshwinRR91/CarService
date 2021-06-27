@@ -6,6 +6,8 @@ import com.luv2code.springboot.crm.carservicer.entity.CarServicer;
 
 public interface CarServicerDao {
 	
+	public List<CarServicer> getCarServicers(int pincode);
+	
 	public CarServicer getCarServicer(int id);
 	
 	public void deleteCarServicer(int id);

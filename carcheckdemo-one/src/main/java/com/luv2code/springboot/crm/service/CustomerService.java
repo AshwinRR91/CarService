@@ -1,5 +1,7 @@
 package com.luv2code.springboot.crm.service;
 
+import java.util.List;
+
 import com.luv2code.springboot.crm.carservicer.entity.CarServicer;
 import com.luv2code.springboot.crm.entity.Customer;
 
@@ -21,4 +23,6 @@ public interface CustomerService {
 	public void deleteCustomer(int id);
 	
 	public void deleteCarservicer(int id);
+	
+	public List<CarServicer> getCarServicers(int pincode);
 }

@@ -1,6 +1,8 @@
 
 package com.luv2code.springboot.crm.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +72,13 @@ public class CustomerServicerDaoImpl implements CustomerService {
 	public void deleteCarservicer(int id) {
 		// TODO Auto-generated method stub
 		carServicerImpl.deleteCarServicer(id);		
+	}
+
+	@Override
+	@Transactional
+	public List<CarServicer> getCarServicers(int pincode) {
+		List<CarServicer> carservicers = carServicerImpl.getCarServicers(pincode);
+		return carservicers;
 	}
 
 }

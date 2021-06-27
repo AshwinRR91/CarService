@@ -11,7 +11,7 @@
 	<security:authorize access="hasRole('EMPLOYEE')">
 	
 	<%
-	response.sendRedirect("/username");
+	response.sendRedirect("/home");
 	%>
 		
 	</security:authorize>	
@@ -20,7 +20,7 @@
 	<security:authorize access="hasRole('SERVICER')">  
 	
 	<% 
-	response.sendRedirect("/servicer/showMyRequests");
+	response.sendRedirect("/servicer/home");
 	%>
 	
 	</security:authorize>

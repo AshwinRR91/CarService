@@ -1,5 +1,7 @@
 package com.luv2code.springboot.crm.dao;
 
+import java.util.List;
+
 import com.luv2code.springboot.crm.entity.Customer;
 
 public interface CustomerDao {

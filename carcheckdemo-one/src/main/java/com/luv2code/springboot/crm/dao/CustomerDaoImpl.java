@@ -1,5 +1,7 @@
 package com.luv2code.springboot.crm.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
@@ -50,4 +52,5 @@ public class CustomerDaoImpl implements CustomerDao {
 			.getSingleResult();
 		return customer;
 	}
+	
 }

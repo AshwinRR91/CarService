@@ -60,8 +60,9 @@ public class CustomerController {
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
     public String currentUserName(Principal principal, Model model) {
-        String username = principal.getName();    
-        Customer customer = customerServiceImpl.getCustomerByUser(username);
+		Customer customer = getCustomer(principal.getName());	
+        List<CustomerRequest> customerRequests = getRequests(customer);
+        model.addAttribute("requests", customerRequests);
         String pincode="";
         model.addAttribute("customer", customer);      
         model.addAttribute("pincode", pincode);
@@ -70,8 +71,7 @@ public class CustomerController {
 	
 	@GetMapping("/carServicers")
 	public String getCarServicers(HttpServletRequest httpServletRequest, Model model, Principal principal) {
-		String username = principal.getName();    
-	    Customer customer = customerServiceImpl.getCustomerByUser(username);   
+		Customer customer = getCustomer(principal.getName());	   
 	    List <String>customerRequest = new ArrayList<String>();
 		int pincode = Integer.parseInt(httpServletRequest.getParameter("pincode"));
 		List<CarServicer> carservicer = customerServiceImpl.getCarServicers(pincode);
@@ -81,26 +81,37 @@ public class CustomerController {
 
 	
 	@PostMapping("/placeRequest")
-	public String placeRequest(@RequestParam("customerRequest[]")List<String>customerRequest, Principal principal) {
-		String username = principal.getName();    
-	    Customer customer = customerServiceImpl.getCustomerByUser(username);   
+	public String placeRequest(@RequestParam("customerRequest[]")List<String>customerRequest,
+								@RequestParam("servicerEmail")String servicerEmail,
+								@RequestParam("status")String status,
+								Principal principal) {
+		Customer customer = getCustomer(principal.getName());	   
 		List<String>request = customerRequest;
 		for (String string : request) {
 			CustomerRequest customerRequests = new CustomerRequest(string);
+			customerRequests.setCarServicerEmailId(servicerEmail);
+			customerRequests.setStatus(status);
 			customer.addRequest(customerRequests);
-			customerServiceImpl.saveCustomer(customer);
 		}
+		customerServiceImpl.saveCustomer(customer);
 		return "redirect:/home";
 	}
 	
 	@GetMapping("/processForm")
 	public String createRequest(@ModelAttribute("Request")CustomerRequest customerRequest, Principal principal, Model model) {
-		String username = principal.getName();    
-        Customer customer = customerServiceImpl.getCustomerByUser(username);	
+        Customer customer = getCustomer(principal.getName());	
         customer.addRequest(customerRequest);
         customerServiceImpl.saveCustomer(customer);
         model.addAttribute("customer", customer);
 		return "show-request";
+	}
+	
+	public List<CustomerRequest> getRequests(Customer customer){
+		return customer.getCustomerRequests();
+	}
+	
+	public Customer getCustomer(String name) {
+		return customerServiceImpl.getCustomerByUser(name);
 	}
 	
 }

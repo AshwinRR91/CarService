@@ -16,9 +16,29 @@
 <h1>Home</h1>
 <div class = "container">	
 	<p>Welcome ${customer.firstName}</p>
-	<a href = "/PlaceRequest">Press here</a>
 </div>
 <br>
+<c:if test="${not empty requests}">
+	// not empty checks if requests is empty or not if its not empty then proceeds further
+	<table class = "table">
+			<thead>
+				<tr>
+					<th scope = "col">Requests<th>
+					<th scope = "col">Status</th>
+				</tr>
+			</thead>
+		<tbody>
+			<c:forEach items="${requests}" var = "requests">
+					<tr>
+						<td>${requests.request}</td>
+						<c:if test="${requests.status.equals('UNKNOWN')}">
+						<td>Request has not been accepted yet</td>
+						</c:if>
+					</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+</c:if>
 <h5>Check for services in a pincode</h5>
 <br>
 <form action="${pageContext.request.contextPath}/carServicers">

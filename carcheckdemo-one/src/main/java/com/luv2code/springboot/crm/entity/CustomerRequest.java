@@ -29,7 +29,28 @@ public class CustomerRequest {
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
+	public String getCarServicerEmailId() {
+		return carServicerEmailId;
+	}
+
+	public void setCarServicerEmailId(String carServicerEmailId) {
+		this.carServicerEmailId = carServicerEmailId;
+	}
+
+	@Column(name="carservicer_email")
+	private String carServicerEmailId;
 	
+	@Column(name="status")
+	private String status;
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public CustomerRequest(String request) {
 		this.request = request;
 	}

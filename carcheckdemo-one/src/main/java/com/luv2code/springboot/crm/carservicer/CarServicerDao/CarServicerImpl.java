@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.luv2code.springboot.crm.carservicer.entity.CarServicer;
+import com.luv2code.springboot.crm.carservicer.entity.PlacedRequest;
 @Repository	
 public class CarServicerImpl implements CarServicerDao {
 
@@ -56,5 +57,11 @@ public class CarServicerImpl implements CarServicerDao {
 		query.setParameter("pincode", pincode);
 		List<CarServicer> carservicers = query.getResultList();
 		return carservicers;
+	}
+
+	@Override
+	public void savePlacedRequest(PlacedRequest placedRequest) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.saveOrUpdate(placedRequest);
 	}
 }

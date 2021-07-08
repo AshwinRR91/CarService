@@ -21,6 +21,28 @@ public class CustomerRequest {
 	@Column(name = "request_id")
 	private int requestId;
 	
+	@Column(name = "posted")
+	private String posted;
+	
+	public String getPosted() {
+		return posted;
+	}
+
+	public void setPosted(String posted) {
+		this.posted = posted;
+	}
+
+	@Column(name = "estimate_amount")
+	private Integer estimateAmount;
+	
+	public Integer getEstimateAmount() {
+		return estimateAmount;
+	}
+
+	public void setEstimateAmount(int estimateAmount) {
+		this.estimateAmount = estimateAmount;
+	}
+
 	@Column(name = "req")
 	private String request;
 	
@@ -51,8 +73,16 @@ public class CustomerRequest {
 		this.status = status;
 	}
 
-	public CustomerRequest(String request) {
+	
+	public CustomerRequest(String posted, String request, String carServicerEmailId, String status) {
+		this.posted = posted;
 		this.request = request;
+		this.carServicerEmailId = carServicerEmailId;
+		this.status = status;
+	}
+
+	public void setEstimateAmount(Integer estimateAmount) {
+		this.estimateAmount = estimateAmount;
 	}
 
 	public CustomerRequest() {

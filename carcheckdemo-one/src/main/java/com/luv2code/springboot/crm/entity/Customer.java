@@ -97,4 +97,14 @@ public class Customer {
 		customerRequests.add(customerRequest);
 		customerRequest.setCustomer(this);
 	}
+	
+	public List<CustomerRequest> getCustomerRequestsbyEmail(String carServicerEmail) {
+		List<CustomerRequest> customerByServicer = null;
+		for(CustomerRequest customerRequest :  this.customerRequests) {
+		if (customerRequest.getCarServicerEmailId().equals(carServicerEmail)){
+			customerByServicer.add(customerRequest);
+			}
+		}
+		return customerByServicer;
+	}
 }

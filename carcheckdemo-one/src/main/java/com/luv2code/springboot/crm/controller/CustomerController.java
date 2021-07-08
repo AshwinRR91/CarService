@@ -1,6 +1,7 @@
 package com.luv2code.springboot.crm.controller;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.luv2code.springboot.crm.carservicer.entity.CarServicer;
+import com.luv2code.springboot.crm.carservicer.entity.PlacedRequest;
 import com.luv2code.springboot.crm.entity.Customer;
 import com.luv2code.springboot.crm.entity.CustomerRequest;
 import com.luv2code.springboot.crm.service.CustomerServicerDaoImpl;
@@ -84,19 +86,45 @@ public class CustomerController {
 	public String placeRequest(@RequestParam("customerRequest[]")List<String>customerRequest,
 								@RequestParam("servicerEmail")String servicerEmail,
 								@RequestParam("status")String status,
+								@RequestParam("carServicerId") int id,
 								Principal principal) {
 		Customer customer = getCustomer(principal.getName());	   
 		List<String>request = customerRequest;
 		for (String string : request) {
-			CustomerRequest customerRequests = new CustomerRequest(string);
-			customerRequests.setCarServicerEmailId(servicerEmail);
-			customerRequests.setStatus(status);
+			CustomerRequest customerRequests = new CustomerRequest("NO",string,servicerEmail,status);
 			customer.addRequest(customerRequests);
 		}
 		customerServiceImpl.saveCustomer(customer);
+		updatePlacedRequest(principal.getName(),servicerEmail);
 		return "redirect:/home";
 	}
 	
+	private void updatePlacedRequest(String custEmail, String email) {
+		Customer customer = getCustomer(custEmail);
+		String status = null;
+		String request = null;
+		CarServicer carservicer = customerServiceImpl.getCarServicerByName(email);
+		PlacedRequest placedRequest;	
+		CustomerRequest customerRequest = null;
+		int requestId;
+		List<CustomerRequest> customerRequests = customer.getCustomerRequests();
+		for(int i = 0; i<customerRequests.size();i++) {
+			customerRequest = customerRequests.get(i);
+			if(customerRequest.getPosted().equals("NO")) {
+				status = customerRequest.getStatus();
+				request = customerRequest.getRequest();
+				requestId = customerRequest.getRequestId();
+				placedRequest = new PlacedRequest(customer.getEmail_id(),requestId, request, status);
+				carservicer.addPlacedRequest(placedRequest);
+				customerRequest.setPosted("YES");
+				customerRequests.add(customerRequest);
+			}
+		}
+		customer.setCustomerRequests(customerRequests);
+		customerServiceImpl.saveCustomer(customer);
+		customerServiceImpl.saveCarServicer(carservicer);
+	}
+
 	@GetMapping("/processForm")
 	public String createRequest(@ModelAttribute("Request")CustomerRequest customerRequest, Principal principal, Model model) {
         Customer customer = getCustomer(principal.getName());	
@@ -113,5 +141,4 @@ public class CustomerController {
 	public Customer getCustomer(String name) {
 		return customerServiceImpl.getCustomerByUser(name);
 	}
-	
 }

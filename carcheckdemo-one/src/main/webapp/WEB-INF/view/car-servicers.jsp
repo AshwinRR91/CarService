@@ -22,6 +22,7 @@
 						<input type = "checkbox" name = "customerRequest[]" value="${service.request}">
 						<label>${service.request}</label>
 						</c:forEach>
+						<input type = "hidden" name="carServicerId" value="${carservicer.id}">
 						<input type = "hidden" name="servicerEmail" value="${carservicer.emailId}">
 						<input type = "hidden" name = "status" value = "UNKNOWN">
 						<button type ="submit">Submit</button>

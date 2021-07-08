@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.luv2code.springboot.crm.carservicer.CarServicerDao.CarServicerImpl;
 import com.luv2code.springboot.crm.carservicer.entity.CarServicer;
+import com.luv2code.springboot.crm.carservicer.entity.PlacedRequest;
 import com.luv2code.springboot.crm.dao.CustomerDaoImpl;
 import com.luv2code.springboot.crm.entity.Customer;
+import com.luv2code.springboot.crm.entity.CustomerRequest;
 
 @Service
 public class CustomerServicerDaoImpl implements CustomerService {
@@ -79,6 +81,20 @@ public class CustomerServicerDaoImpl implements CustomerService {
 	public List<CarServicer> getCarServicers(int pincode) {
 		List<CarServicer> carservicers = carServicerImpl.getCarServicers(pincode);
 		return carservicers;
+	}
+
+	@Override
+	@Transactional
+	public List<CustomerRequest> getRequests(String email) {
+		// TODO Auto-generated method stub
+		return customerDaoImpl.getUserRequests(email);
+	}
+
+	@Override
+	@Transactional
+	public void savePlacedRequest(PlacedRequest placedRequest) {
+		// TODO Auto-generated method st
+		carServicerImpl.savePlacedRequest(placedRequest);
 	}
 
 }

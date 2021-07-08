@@ -14,6 +14,7 @@
 </head>
 <body>
 	<h1>${carServicer.getCarServicerName()}</h1>
+	<a href = "${pageContext.request.contextPath}/servicer/requests">Check requests</a>
 	<c:if test="${carServicer.getServicesOffered().size()>0}">
 		<c:forEach var = "Requests" items = "${carServicer.getServicesOffered()}">
 					<p>${Requests.request}</p>	

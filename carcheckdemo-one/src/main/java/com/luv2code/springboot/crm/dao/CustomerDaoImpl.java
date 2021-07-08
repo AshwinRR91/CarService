@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.luv2code.springboot.crm.entity.Customer;
+import com.luv2code.springboot.crm.entity.CustomerRequest;
 
 
 @Repository
@@ -51,6 +52,16 @@ public class CustomerDaoImpl implements CustomerDao {
 			.setParameter("emailId", username)
 			.getSingleResult();
 		return customer;
+	}
+
+	@Override
+	public List<CustomerRequest> getUserRequests(String email) {
+		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query<CustomerRequest> query = currentSession.createQuery("from CustomerRequest c where c.carServicerEmailId=:email");
+		query.setParameter("email", email);
+		List<CustomerRequest> requests = query.getResultList();
+		return requests;
 	}
 	
 }

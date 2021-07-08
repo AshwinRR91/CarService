@@ -10,6 +10,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-${name}
+${status}
 </body>
 </html>

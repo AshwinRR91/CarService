@@ -45,6 +45,13 @@ public class CarServicer {
 	@JsonIgnore
 	private List<ServicesOffered> servicesOffered;
 	
+	@OneToMany(fetch = FetchType.LAZY, 
+			mappedBy = "carServicers", 
+						cascade = {CascadeType.DETACH, CascadeType.MERGE, 
+								   CascadeType.PERSIST,CascadeType.REFRESH })
+	@JsonIgnore
+	private List<PlacedRequest> placedRequest;
+	
 	@Column(name = "address")
 	private String address;
 	
@@ -101,6 +108,15 @@ public class CarServicer {
 		this.pincode = pincode;
 	}
 	
+	public void addPlacedRequest(PlacedRequest placedRequest) {
+		if(this.placedRequest == null) {
+			this.placedRequest = new ArrayList<PlacedRequest>();
+		}
+		
+		this.placedRequest.add(placedRequest);
+		placedRequest.setCarServicers(this);
+	}
+	
 	public void addServices(ServicesOffered serviceOffered) {
 		
 		if(this.servicesOffered == null) {
@@ -109,5 +125,25 @@ public class CarServicer {
 		
 		this.servicesOffered.add(serviceOffered);
 		serviceOffered.setCarServicer(this);
+	}
+
+	public List<PlacedRequest> getPlacedRequest() {
+		return placedRequest;
+	}
+
+	public void setPlacedRequest(List<PlacedRequest> placedRequest) {
+		this.placedRequest = placedRequest;
+	}
+	
+	public List<PlacedRequest> getPlacedRequestByEmail(String customerEmail){
+		List<PlacedRequest> placedRequestCustomer = null;
+		
+		for(PlacedRequest placedRequest:this.placedRequest) {
+			if(placedRequest.getCustomerEmail().equals(customerEmail)) {
+				placedRequestCustomer.add(placedRequest);
+			}
+		}
+		
+		return placedRequestCustomer;
 	}
 }

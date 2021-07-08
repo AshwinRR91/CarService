@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -25,13 +27,16 @@
           <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">Link</a>
+          <a class="nav-link text-white" href="#">Requests</a>
         </li>
       </ul>
+      <form:form class="d-flex" action="${pageContext.request.contextPath}/logout" method="POST">
+      	<input class="btn btn-outline-success" type = "submit" value = "Logout">
+      </form:form>
     </div>
   </div>
 </nav>
-<div class = "container">	
+<div>	
 	<p>Welcome ${customer.firstName}</p>
 </div>
 <br>

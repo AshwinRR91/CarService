@@ -55,10 +55,25 @@ public class ServicerController {
 	@GetMapping("/requests")
 	public String getRequests(Model model, Principal principal) {
 		CarServicer carservicer = customerServicerImpl.getCarServicerByName(principal.getName());
+		carservicer = getCarServicerByStatus(carservicer);
 		model.addAttribute("carservicer", carservicer);
 		return "requests";
 	}
 	
+	private CarServicer getCarServicerByStatus(CarServicer carservicer2) {
+		List<PlacedRequest> requests = carservicer2.getPlacedRequest();
+		PlacedRequest placedRequest = null;
+		for(int i = 0; i<requests.size(); i++) {
+			placedRequest =requests.get(i);
+			if(!placedRequest.getStatus().equals("UNKNOWN")) {
+				requests.remove(placedRequest);
+				}
+			}
+		carservicer2.setPlacedRequest(requests);
+		return carservicer2;
+	}
+
+
 	@RequestMapping(value = "/check", method = RequestMethod.POST, params = "accept")
 	public String getcheck(	@ModelAttribute("carservicer")CarServicer carservicer,HttpServletRequest request, Model model, Principal principal) {		
 	
@@ -77,7 +92,7 @@ public class ServicerController {
 			}
 		}).run();
 		model.addAttribute("status",status);
-		return "awesome";
+		return "redirect:/servicer/home";
 	}
 	
 	@RequestMapping(value = "/check", method = RequestMethod.POST, params = "decline")
@@ -105,6 +120,7 @@ public class ServicerController {
 		CarServicer carservicer1 = customerServicerImpl.getCarServicerByName(name);
 		System.out.println(status);
 		PlacedRequest placedRequest2 = carservicer2.getPlacedRequest().get(0);
+		System.out.println(placedRequest2.getRequest());
 		List<PlacedRequest> placedRequests1 = carservicer1.getPlacedRequest();
 		int i = 0;
 		PlacedRequest placedRequest = null;

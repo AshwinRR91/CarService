@@ -37,17 +37,16 @@
 
 <form:form action= "${pageContext.request.contextPath}/servicer/check" modelAttribute="carservicer">
 	<c:forEach items = "${carservicer.placedRequest}" var = "request" varStatus = "i" >
-		<form:hidden path="placedRequest[${i.index}].id"/>
-		<form:hidden path="placedRequest[${i.index}].requestId"/>
-		<form:hidden path="placedRequest[${i.index}].request"/>
-		<form:hidden path="placedRequest[${i.index}].customerEmail"/>
-		<form:checkbox path="placedRequest[${i.index}].status" value ="ACCEPTED"/>
-		<label>${request.request}</label>
-		<label>Transaction Amount</label>
-		<form:input path="placedRequest[${i.index}].transactionAmount"/>
-		<input type = "submit" name ="accept" value= "accept">
-		<input type = "submit" name ="decline" value= "decline">
-		
+			<form:hidden path="placedRequest[${i.index}].id"/>
+			<form:hidden path="placedRequest[${i.index}].requestId"/>
+			<form:hidden path="placedRequest[${i.index}].request"/>
+			<form:hidden path="placedRequest[${i.index}].customerEmail"/>
+			<form:checkbox path="placedRequest[${i.index}].status" value ="ACCEPTED"/>
+			<label>${request.request}</label>
+			<label>Transaction Amount</label>
+			<form:input path="placedRequest[${i.index}].transactionAmount"/>
+			<input type = "submit" name ="accept" value= "accept">
+			<input type = "submit" name ="decline" value= "decline">
 		<br><br>																																															
 	</c:forEach>	
 

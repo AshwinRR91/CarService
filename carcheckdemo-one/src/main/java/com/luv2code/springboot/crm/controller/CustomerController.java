@@ -125,14 +125,15 @@ public class CustomerController {
 		customerServiceImpl.saveCarServicer(carservicer);
 	}
 
-	@GetMapping("/processForm")
-	public String createRequest(@ModelAttribute("Request")CustomerRequest customerRequest, Principal principal, Model model) {
+	
+	@GetMapping("/yourRequest")
+	public String senrequest(Principal principal, Model model) {
         Customer customer = getCustomer(principal.getName());	
-        customer.addRequest(customerRequest);
-        customerServiceImpl.saveCustomer(customer);
-        model.addAttribute("customer", customer);
+        List<CustomerRequest> customerRequests = getRequests(customer);
+        model.addAttribute("requests", customerRequests);
 		return "show-request";
 	}
+	
 	
 	public List<CustomerRequest> getRequests(Customer customer){
 		return customer.getCustomerRequests();
